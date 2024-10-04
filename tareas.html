@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Tareas</title>
+    <link rel="stylesheet" href="styles.css/styles_tareas.css">
+</head>
+<body>
+    <h1>Lista de Tareas</h1>
+    <form id="tareaForm" method="GET" target="_blank"> <!-- Método GET sin action para evitar el error 404 -->
+        <input type="text" id="nuevaTarea" name="tarea" placeholder="Escribe una tarea" required>
+        <button type="submit">Agregar Tarea</button>
+    </form>
+
+    <ul id="listaTareas"></ul>
+
+    <script>
+            document.getElementById('tareaForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevenir el envío del formulario
+
+            // Capturar el valor del campo de texto
+            const nuevaTarea = document.getElementById('nuevaTarea').value;
+            if (nuevaTarea.trim() === "") {
+                alert("Por favor, ingrese una tarea.");
+                return;
+            }
+
+            // Crear un nuevo elemento de lista (li)
+            const li = document.createElement('li');
+            li.textContent = nuevaTarea;
+
+            // Botón de completar tarea
+            li.addEventListener('click', function() {
+                li.classList.toggle('completed'); // Marca la tarea como completada
+            });
+
+            // Botón de eliminar tarea
+            const btnEliminar = document.createElement('button');
+            btnEliminar.textContent = 'Eliminar';
+            btnEliminar.classList.add('delete');
+            btnEliminar.addEventListener('click', function() {
+                li.remove(); // Eliminar tarea de la lista
+            });
+
+            li.appendChild(btnEliminar);
+
+            // Agregar la tarea a la lista
+            document.getElementById('listaTareas').appendChild(li);
+
+            // Limpiar el campo de texto
+            document.getElementById('nuevaTarea').value = '';
+        });
+    </script>
+</body>
+</html>
+

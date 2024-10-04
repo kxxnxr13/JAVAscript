@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Búsqueda en Tabla</title>
+    <link rel="stylesheet" href="styles.css/styles_busqueda.css">
+</head>
+<body>
+    <h1>Búsqueda en Tabla de Diccionario</h1>
+    
+    <!-- Formulario de búsqueda -->
+    <div class="search-container">
+        <input type="text" id="searchTerm" placeholder="Escribe una palabra...">
+        <button onclick="buscar()">Buscar</button>
+    </div>
+    
+    <!-- Tabla de diccionario -->
+    <table id="tablaDiccionario">
+        <thead>
+            <tr>
+                <th>Palabra</th>
+                <th>Definición</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Casa</td>
+                <td>Edificio destinado para habitar.</td>
+            </tr>
+            <tr>
+                <td>Perro</td>
+                <td>Animal doméstico de cuatro patas, generalmente considerado el mejor amigo del hombre.</td>
+            </tr>
+            <tr>
+                <td>Sol</td>
+                <td>Estrella que da luz y calor a la Tierra.</td>
+            </tr>
+            <tr>
+                <td>Libro</td>
+                <td>Conjunto de hojas escritas o impresas, unidas entre sí.</td>
+            </tr>
+            <tr>
+                <td>Montaña</td>
+                <td>Elevación natural del terreno, generalmente de gran altura.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Contenedor para el resultado -->
+    <div id="resultado">Resultados encontrados: 0</div>
+
+    <script>
+        function buscar() {
+            // Obtener el término de búsqueda
+            const termino = document.getElementById("searchTerm").value.toLowerCase();
+            const filas = document.querySelectorAll("#tablaDiccionario tbody tr");
+            let conteo = 0;
+
+            // Recorrer las filas de la tabla
+            filas.forEach(fila => {
+                // Obtener texto de la palabra y la definición
+                const palabra = fila.cells[0].textContent.toLowerCase();
+                const definicion = fila.cells[1].textContent.toLowerCase();
+
+                // Verificar si el término de búsqueda está en la palabra o la definición
+                if (palabra.includes(termino) || definicion.includes(termino)) {
+                    fila.style.display = ""; // Mostrar la fila si coincide
+                    conteo++;
+
+                    // Resaltar las coincidencias
+                    fila.cells[0].innerHTML = palabra.replace(new RegExp(termino, "gi"), (match) => `<mark>${match}</mark>`);
+                    fila.cells[1].innerHTML = definicion.replace(new RegExp(termino, "gi"), (match) => `<mark>${match}</mark>`);
+                } else {
+                    fila.style.display = "none"; // Ocultar la fila si no coincide
+                }
+            });
+
+            // Mostrar el resultado
+            document.getElementById("resultado").textContent = `Resultados encontrados: ${conteo}`;
+        }
+    </script>
+</body>
+</html>
